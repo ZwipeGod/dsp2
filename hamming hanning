@@ -1,0 +1,56 @@
+FC1 = 1500;
+FC2 = 1500;
+FS = 8000;
+N1 = 2;
+N2 = 5;
+N3 = 10;
+Rp = 1;
+Rs = 20;
+[b1,a1] = butter(N1,2*FC1/FS,'high');
+[b2,a2] = cheby1(N2,Rp,2*FC1/FS,'high');
+[b3,a3] = cheby2(N3,Rs,2*FC1/FS,'high');
+w = 0:0.01:pi;
+[h1,om1] = freqz(b1,a1,w);
+m1 = abs(h1);
+[h2,om2] = freqz(b2,a2,w);
+m2 = abs(h2);
+[h3,om3] = freqz(b3,a3,w); 
+m3 = abs(h3);
+subplot(2,2,1);
+plot(om1/pi*FS/2, m1,'linewidth',2);
+set(gca,'fontsize',13,'fontweight','bold');
+title(['Butterworth High Pass Filter Response (Order =
+',num2str(N1),')'],'Fontsize',14);
+ylabel('Magnitude','fontSize',12,'fontweight','bold');
+xlabel('Frequency(Hz)','fontsize',12,'fontweight','bold');
+grid on;
+subplot(2,2,2);
+plot(om2/pi*FS/2,m2,'linewidth',2);
+set(gca,'fontsize',13,'fontweight','bold');
+title(['Chebyshev-1 High Pass Filter Response (Order =
+',num2str(N2),')'],'Fontsize',14);
+ylabel('Magnitude','FontSize',12,'fontweight','bold');
+xlabel('Frequency(Hz)','fontsize',12,'fontweight','bold');
+grid on;
+subplot(2,2,3);
+plot(om3/pi*FS/2,m3,'linewidth',2);
+set(gca,'fontsize',13,'fontweight','bold');
+title(['Chebyshev-2 High Pass Filter Response (Order =
+',num2str(N3),')'],'Fontsize',14);
+ylabel('Magnitude','FontSize',12,'fontweight','bold');
+xlabel('Frequency(Hz)','fontsize',12,'fontweight','bold');
+grid on;
+subplot(2,2,4);
+plot(om3/pi*FS/2,m1,'linewidth',2);
+set(gca,'fontsize',13,'fontweight','bold');
+title('Butterworth High Pass Filter Response for different Orders','Fontsize',14);
+ylabel('Magnitude','FontSize',12,'fontweight','bold');
+xlabel('Frequency(Hz)','fontsize',12,'fontweight','bold');
+grid on;
+hold on;
+plot(om3/pi*FS/2,m2,'linewidth',2);
+hold on;
+plot(om3/pi*FS/2,m3,'linewidth',2);
+legend(['Order = ',num2str(N1)]',['Order = ',num2str(N2)]',['Order =
+',num2str(N3)]');
+grid on;
