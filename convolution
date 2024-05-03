@@ -1,0 +1,112 @@
+LINEAR CONVOLUTION(BUILT-IN)
+
+clc;
+clear all;
+x=input('enter he first signal')
+h=input('enter the second signal')
+c=conv(x,h)
+xlen=length(x);
+ylen=length(h);
+subplot(2,2,1)
+stem((0:xlen-1),x)
+xlabel('Time index n');
+ylabel('Amplitude');
+title('first signal');
+subplot(2,2,2);
+stem((0:ylen-1),h)
+xlabel('Time index n');
+ylabel('Amplitude');
+title('second signal');
+out=length(c)
+subplot(2,2,3)
+stem((0:out-1),c)
+xlabel('Time index n');
+ylabel('Amplitude');
+title('Output Obtained by Convolution');
+
+LINEAR CONVOLUTION(without BUILT-IN)
+
+clc;
+clear all;
+h = input('Input impulse response samples:');
+x = input('Input samples of incoming signal:');
+hlen = length(h);
+xlen = length(x);
+for i = 1:xlen
+for j = 1:hlen
+y(i, i+j-1) = x(i) .* h(j);
+end
+end
+y = sum(y);
+outl=length(y);
+disp('Convolution Output is:');
+subplot(2,2,1);stem((0:xlen-1),x);
+xlabel('Time index n'); ylabel('Amplitude');
+title('Input Signal x(n)'); grid;
+subplot(2,2,2);stem((0:hlen-1),h);
+xlabel('Time index n'); ylabel('Amplitude');
+title('Impulse Response h(n)'); grid;
+subplot(2,2,3);stem((0:outl-1),y);
+xlabel('Time index n'); ylabel('Amplitude');
+title('Output Obtained by Convolution');
+grid;
+
+Circular (bulit-in)
+
+clc;
+clear all;
+x=input('enter he first signal')
+h=input('enter the second signal')
+c=cconv(x,h,4)
+xlen=length(x);
+ylen=length(h);
+subplot(2,2,1)
+stem((0:xlen-1),x)
+xlabel('Time index n');
+ylabel('Amplitude');
+title('first signal');
+subplot(2,2,2);
+stem((0:ylen-1),h)
+xlabel('Time index n');
+ylabel('Amplitude');
+title('second signal');
+out=length(c)
+subplot(2,2,3)
+stem((0:out-1),c)
+xlabel('Time index n');
+ylabel('Amplitude');
+title('Output Obtained by Convolution');
+
+Circular (without built in)
+
+clc;
+clear all;
+x1 = input('Input sequence1:');
+x2 = input('Input sequence2:');
+L1 = length(x1); L2 = length(x2);
+if L1 ~= L2, error('Sequences of unequal lengths'), end
+y = zeros(1,L1);
+x2tr = [x2(1) x2(L2:-1:2)];
+for k = 1:L1
+M = 1-k; x = x2tr;
+if abs(M) > length(x)
+M = rem(M,length(x));
+end
+if M < 0
+M = M + length(x);
+end
+sh = [x(M+1:length(x)) x(1:M)];
+h = x1.*sh;
+y(k) = sum(h);
+end
+out1=length(y);
+disp('Circular Convolution Output is:');disp(y);
+subplot(2,2,1);stem((0:L1-1),x1);
+xlabel('Time index n'); ylabel('Amplitude');
+title('Input Signal x(n)'); grid;
+subplot(2,2,2);stem((0:L2-1),x2);
+xlabel('Time index n'); ylabel('Amplitude');
+title('Impulse Response h(n)'); grid;
+subplot(2,2,3);stem((0:out1-1),y);
+xlabel('Time index n'); ylabel('Amplitude');
+title('Output Obtained by Convolution');grid;
