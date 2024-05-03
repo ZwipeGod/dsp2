@@ -1,0 +1,23 @@
+clc;
+clear all;
+close all;
+% plotting poles & zeros
+num=[ 0.45 0.5 0.45];
+den=[1, -0.43 0.56];
+num_a=roots(num);
+den_b=roots(den);
+title('zplane');
+subplot(2,2,1);
+zplane(num_a,den_b);
+[z, p] = tf2zp(num,den);
+subplot(2,2,2);
+zplane(z,p);
+title('zplane');
+disp('The poles are:');
+disp(p);
+disp('The zeros are:');
+disp(z);
+[g t]=impz(num,den);
+subplot(2,2,3);stem(g);
+title('Impulse Response');
+disp('Impulse response of a system is:');disp(g);
