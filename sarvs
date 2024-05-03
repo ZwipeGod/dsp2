@@ -1,0 +1,272 @@
+GENERATION OF SIGNALS
+AIM:
+To generate few basic signals using MATLAB software.
+1)Linear signal
+i) Continuous Time
+MATLAB CODE:
+clc
+clear all
+close all
+t=0:0.01:5
+y=t;
+figure,plot(t,y)
+xlabel("Time")
+ylabel("Amplitude")
+title("Linear")
+                                             
+ii)Discrete Time
+MATLAB CODE:
+clc
+clear all
+close all
+t=0:0.2:5
+y=t;
+figure,stem(t,y)
+xlabel("Time")
+ylabel("Amplitude")
+title("Linear-DT")                          
+
+2) Parabolic signal –DT
+MATLAB CODE:
+clc
+clear all
+close all
+t=-5:0.2:5
+y=t.^2;
+figure,stem(t,y)
+xlabel("Time")
+ylabel("Amplitude")
+title("PARABOLIC-DT")
+
+3)Exponential Signal-DT
+MATLAB CODE:
+clc
+clear all
+close all
+t= -5:0.2:5
+y= exp(-t)
+figure,stem(t,y)
+xlabel("Time")
+ylabel("Amplitude")
+title("Exponential-DT")
+                                   
+4)Sinusoidal Signal-DT
+MATLAB CODE: 
+clc
+clear all
+close all
+t= -30:0.3:30
+y= sin(2*3.14*100*t)
+figure,stem(t,y)
+xlabel("Time")
+ylabel("Amplitude")
+title("Sine wave-DT")
+
+LINEAR CONVOLUTION AND CIRCULAR CONVOLUTION
+
+AIM:
+To perform linear and circular convolution using MATLAB
+
+MATLAB PROGRAM:
+clc
+close all
+clear all
+x=[1,3,2,5,4,6,4,9];
+y=[2,4,2,1,5,6,8,4];
+l=conv(x,y)
+figure;subplot(3,1,1);stem(x);xlabel('Time');ylabel('Amplitude');title('Linear Convolution');
+subplot(3,1,2);stem(y);xlabel('Time');ylabel('Amplitude');
+subplot(3,1,3);stem(l);xlabel('Time');ylabel('Amplitude');
+c=cconv(x,y,length(x))
+figure;subplot(3,1,1);stem(x);xlabel('Time');ylabel('Amplitude');title('Circular Convolution');
+subplot(3,1,2);stem(y);xlabel('Time');ylabel('Amplitude');
+subplot(3,1,3);stem(c);xlabel('Time');ylabel('Amplitude');
+
+
+DISCRETE FOURIER TRANSFORM
+AIM:
+To perform Discrete Fourier transform and plot its Spectrum using MATLAB
+
+MATLAB PROGRAM:
+clc 
+close all
+clear all
+x=[1,1,1,1,1,1,0,0];
+X=[];
+N=length(x);
+for K = 0 : N-1
+    X(K+1)=0;
+    for n = 0 : N-1
+        X(K+1)=X(K+1)+x(n+1)*exp(-1i*2*pi*n*K/N);
+    end
+end
+figure;subplot(3,1,1);stem(x);xlabel('Time');ylabel('Amplitude');title('Input');
+subplot(3,1,2);stem(abs(X));xlabel('Time');ylabel('Amplitude');title('Magnitude of DFT');
+subplot(3,1,3);stem(abs(X).^2);xlabel('Time');ylabel('Amplitude');title('Power spectrum');
+
+
+CIRCULAR CONVOLUTION USING FFT
+AIM:
+To perform circular convolution using FFT
+MATLAB PROGRAM:
+clc
+clear all
+close all
+x = [1,2,3,4,5,6,7,8] ;
+y = [8,7,6,5,4,3,2,1] ;
+X=fft(x,length(x));
+Y=fft(y,length(y));
+Z=X.*Y;
+c=ifft(Z,length(x)); 
+
+IIR FILTERS(BUTTERWORTH LPF AND CHEBYSHEV LPF)
+AIM:
+To design Butterworth and Chebyshev low pass filters and perform filteration by giving an input
+
+MATLAB PROGRAM:
+i)	BUTTERWORTH LPF
+clc
+clear all
+close all
+f1=100;f2=300;f3=500;fs=1200;
+t=0:(1/fs):0.05;
+%Input signal
+x=2*cos(2*pi*f1*t)+10*sin(2*pi*f2*t)-cos(2*pi*f3*t)
+figure;plot(t,x);title("INPUT SIGNAL");xlabel('Time');ylabel('x(t)');
+%Designing of the filter
+N=5;
+fc=350;
+[b,a]=butter(N,fc/(fs/2));
+figure;freqz(b,a,[],fs);
+%Output after filtration
+y=filter(b,a,x);
+figure;plot(t,y);title("OUTPUT SIGNAL after FILTRATION");xlabel('Time');ylabel('y(t)');
+
+
+ii)	CHEBYSHEV’S LPF:
+MATLAB CODE:
+clc
+clear all
+close all
+f1=100;f2=300;f3=500;fs=1200;rp=3;
+t=0:(1/fs):0.05;
+%Input signal
+x=2*cos(2*pi*f1*t)+10*sin(2*pi*f2*t)-cos(2*pi*f3*t)
+figure;plot(t,x);title("INPUT SIGNAL");xlabel('Time');ylabel('x(t)');
+%Designing of the filter
+N=5;
+fc=350;
+[b,a]=cheby1(N,rp,fc/(fs/2));
+figure;freqz(b,a,[],fs);
+%Output after filtration
+y=filter(b,a,x);
+figure;plot(t,y);title("OUTPUT SIGNAL after FILTRATION");xlabel('Time');ylabel('y(t)');
+
+
+FIR FILTERS 
+AIM:
+To perform  filtration of signals using FIR Filters
+i)LOWPASS FILTER
+MATLAB PROGRAM:
+clc
+clear all
+close all
+f1=100;f2=300;f3=500;fs=1200;
+t=0:(1/fs):0.05;
+%Input signal
+x=2*cos(2*pi*f1*t)+10*sin(2*pi*f2*t)-cos(2*pi*f3*t)
+figure;plot(t,x);title("INPUT SIGNAL");xlabel('Time');ylabel('x(t)');
+%Designing of the filter
+N=10;
+fc=300;
+b=fir1(N,[fc/(fs/2)],'low',boxcar(N+1));
+figure;freqz(b,1,512);title("High pass filter");
+%Output after filtration
+y=filter(b,1,x);
+figure;plot(t,y);title("FilteredSignal");
+xlabel('Time');ylabel('y(t)');
+
+                                  
+ii)HIGHPASS FILTER
+MATLAB PROGRAM:
+clc
+clear all
+close all
+f1=100;f2=300;f3=500;fs=1200;
+t=0:(1/fs):0.05;
+%Input signal
+x=2*cos(2*pi*f1*t)+10*sin(2*pi*f2*t)-cos(2*pi*f3*t)
+figure;plot(t,x);title("INPUT SIGNAL");xlabel('Time');ylabel('x(t)');
+%Designing of the filter
+N=10;
+fc=300;
+b=fir1(N,[fc/(fs/2)],'high',hamming(N+1));
+figure;freqz(b,1,512);title("High pass filter");
+%Output after filtration
+y=filter(b,1,x);
+figure;plot(t,y);title("Filtered Signal");xlabel('Time');ylabel('y(t)');       
+
+
+ii)BAND PASS
+
+MATLAB PROGRAM:
+
+clc
+clear all
+close all
+f1=100;f2=300;f3=500;fs=1200;
+t=0:(1/fs):0.05;
+%Input signal
+x=2*cos(2*pi*f1*t)+10*sin(2*pi*f2*t)-cos(2*pi*f3*t)
+figure;plot(t,x);title("INPUT 
+
+
+SIGNAL");xlabel('Time');ylabel('x(t)');
+%Designing of the filter
+N=10;
+fc1=300;
+fc2=400;
+b=fir1(N,[fc1/(fs/2),fc2/(fs/2)],'bandpass',hanning(N+1));
+figure;freqz(b,1,512);title("High pass filter");
+%Output after filtration
+y=filter(b,1,x);
+figure;plot(t,y);title("Filtered Signal");xlabel('Time');ylabel('y(t)');
+
+
+BANDPASS FILTER DESIGN
+AIM:
+To design a Bandpass filter
+MATLAB PROGRAM:
+clc
+clear all
+close all
+f1=100;f2=300;f3=500;fs=1200;
+t=0:(1/fs):0.1;
+%Input signal
+x=2*cos(2*pi*f1*t)+10*sin(2*pi*f2*t)-cos(2*pi*f3*t)
+figure;plot(t,x);title("INPUT SIGNAL");xlabel('Time');ylabel('x(t)');
+N=15
+F=[0,0.1,0.2,0.3,0.4,0.6,0.7,0.8,0.9,1];
+A=[0,0,0,1,1,1,1,0,0,0];
+b=firpm(N,F,A)
+figure;freqz(b,1,512);title("FILTER")
+y=filter(b,1,x)
+figure;plot(t,y);title("FILTERED SIGNAL");xlabel('Time');ylabel('y(t)');
+
+SAMPLING RATE CONVERSION
+AIM:
+To implement sampling rate conversion using MATLAB.
+MATLAB PROGRAM:
+clc
+clear all
+close all
+x=[1,3,-1,4,6,8,9,-1,3];
+xu=upsample(x,2);
+xd=downsample(x,3);
+xud=downsample(xu,3);
+figure;
+subplot(2,1,1);stem(x);title('INPUT SIGNAL');xlabel('Time');ylabel('AMPLITUDE');
+subplot(2,1,2);stem(xu);title('Upsampled signal by a factor of 2');xlabel('Time');ylabel('AMPLITUDE');
+figure;
+subplot(2,1,1);stem(xd);title('Downsampled signal by a factor of 3');xlabel('Time');ylabel('AMPLITUDE');
+subplot(2,1,2);stem(xud);title('Sampled signal by a ratio of 2/3');xlabel('Time');ylabel('AMPLITUDE');
